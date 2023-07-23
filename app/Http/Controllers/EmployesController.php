@@ -23,7 +23,8 @@ class EmployesController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('employes.create');
     }
 
     /**
@@ -31,7 +32,20 @@ class EmployesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+        'registration_number' => 'required|numeric',
+        'fullname' => 'required',
+        'depart' =>'required',
+        'hire_date' => 'required',
+        'phone'=> 'required',
+        'address' =>'required',
+        'city'=> 'required',
+        ]);
+        Employe::create($request->except('_token'));
+        return redirect()->route('employes.index')->with([
+            'success'=>'Employé ajoutée avec succès!'
+        ]);
+
     }
 
     /**
@@ -39,7 +53,10 @@ class EmployesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $employes = Employe::where('registration_number',$id)->first();
+        return view('employes.show')->with([
+            'employe' => $employes
+        ]);
     }
 
     /**
@@ -47,7 +64,11 @@ class EmployesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $employes = Employe::where('registration_number',$id)->first();
+        return view('employes.edit')->with([
+            'employe' => $employes
+        ]);
+
     }
 
     /**
@@ -55,7 +76,20 @@ class EmployesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $employe = Employe::where('registration_number',$id)->first();
+        $this->validate($request,[
+            'registration_number' => 'required|numeric|unique:employes,id,' .$employe->registration_number ,
+            'fullname' => 'required',
+            'depart' =>'required',
+            'hire_date' => 'required',
+            'phone'=> 'required',
+            'address' =>'required',
+            'city'=> 'required',
+            ]);
+            $employe->update($request->except('_token','_method'));
+            return redirect()->route('employes.index')->with([
+                'success'=>'Employé Modifier avec succès!'
+            ]);
     }
 
     /**
@@ -63,6 +97,10 @@ class EmployesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $employe = Employe::where('registration_number',$id)->first();
+        $employe->delete();
+        return redirect()->route('employes.index')->with([
+            'success'=>'Employé Supprimer avec succès!'
+        ]);
     }
 }
