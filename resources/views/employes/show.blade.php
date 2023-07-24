@@ -23,8 +23,8 @@ Les données d'Employés
             </div>
 
             <div class="mt-3 text-center font-weight-bold text-uppercase">
-                <a href="♯" class="btn btn-outline-dark">Demande de Congé </a>
-                <a href="♯" class="btn btn-outline-danger">Attestation de travail </a>
+                <a href="{{route('vacation.request',$employe->registration_number)}}" class="btn btn-outline-dark">Demande de Congé </a>
+                <a href="{{route('certificate.request',$employe->registration_number)}}" class="btn btn-outline-danger">Attestation de travail </a>
             </div>
             <hr>
             

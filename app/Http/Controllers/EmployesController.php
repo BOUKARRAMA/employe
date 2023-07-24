@@ -103,4 +103,17 @@ class EmployesController extends Controller
             'success'=>'Employé Supprimer avec succès!'
         ]);
     }
+
+    public function vacationRequest($id){
+        $employe = Employe::where('registration_number',$id)->first();
+        return view('employes.vacation-request')->with([
+            "employe" =>  $employe
+        ]);
+    }
+    public function certificateRequest(){
+        $employe = Employe::where('registration_number')->first();
+        return view('employes.certificate-request')->with([
+            "employe" =>  $employe
+        ]);
+    }
 }
